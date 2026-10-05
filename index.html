@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Memories — Our Memories • Our Family • Our Stories</title>
+  <meta name="description" content="Personal digital family memory archive and Google Drive media directory.">
+  <meta name="theme-color" content="#f8f6f2">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Ambient Luxury Glows -->
+  <div class="ambient-glow ambient-glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow ambient-glow-3" aria-hidden="true"></div>
+
+  <div class="container">
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+      <a href="#" class="brand-badge" aria-label="Family Memories Home">
+        <div class="brand-icon-wrapper" aria-hidden="true">💎</div>
+        <div class="brand-text">
+          <h1>Family Memories</h1>
+          <span>Digital Heritage</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Data Source / Manager Modal Trigger -->
+        <button id="open-data-modal-btn" class="btn-pill" title="View or reload memories.txt data" aria-label="Manage memory text data">
+          <span>📁</span> Data Source
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Header -->
+    <section class="hero-header">
+      <div class="hero-pill">
+        <span>✨</span> Private Family Media Archive
+      </div>
+      <h1 class="hero-title">Family Memories</h1>
+      <p class="hero-subtitle">Our Memories • Our Family • Our Stories</p>
+    </section>
+
+    <!-- Search, Filters, and Controls -->
+    <section class="controls-card" aria-label="Filter and Search Controls">
+      <!-- Search & Sort Row -->
+      <div class="search-row">
+        <div class="search-box-wrapper">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input 
+            type="search" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Search memories, events, members, folders, or links..." 
+            aria-label="Search memories"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button id="clear-search-btn" class="clear-search-btn" title="Clear search" aria-label="Clear search">✕</button>
+        </div>
+
+        <div class="sort-and-view">
+          <div class="select-wrapper">
+            <select id="sort-select" aria-label="Sort memories">
+              <option value="default">Default Order</option>
+              <option value="name-asc">Category: A → Z</option>
+              <option value="name-desc">Category: Z → A</option>
+              <option value="items-desc">Most Folders / Files</option>
+              <option value="items-asc">Fewest Folders / Files</option>
+            </select>
+            <span class="select-arrow" aria-hidden="true">▼</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Status Bar -->
+    <div class="results-bar">
+      <div id="results-count" class="results-count" aria-live="polite">
+        Showing all <strong>9</strong> memories
+      </div>
+      <div id="active-filters-summary" class="active-filters-summary" style="display: none;">
+        <span>Filters applied</span>
+        <button id="reset-filters-btn" class="reset-btn">Reset All</button>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <main id="memories-grid" class="memories-grid" aria-label="Family Memory Collections">
+      <!-- Memory cards dynamically injected here -->
+    </main>
+
+    <!-- Empty State -->
+    <section id="empty-state" class="empty-state" aria-label="No memories found">
+      <div class="empty-icon" aria-hidden="true">🔍</div>
+      <h3 class="empty-title">No memories found</h3>
+      <p class="empty-desc">We couldn't find any collection matching your search or active filters.</p>
+      <button id="reset-empty-btn" class="btn-pill">
+        ↺ Reset Search & Filters
+      </button>
+    </section>
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+      <p>Family Memories Digital Archive • Crafted with <span class="footer-heart">♥</span> for Our Family</p>
+      <p class="footer-tagline">Preserving our stories, rituals, and unforgettable celebrations.</p>
+    </footer>
+  </div>
+
+  <!-- Data Source Modal Dialog -->
+  <div id="data-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">📁 Memory Data Source</h3>
+        <button id="close-data-modal-btn" class="btn-icon" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Active source: <strong id="data-source-badge" style="color: var(--accent-gold);">Loading...</strong>
+        </p>
+        <p>
+          The cards on this page are generated dynamically by parsing the raw text below.
+          You can paste new text, edit categories, or load an updated <code>memories.txt</code> file from your computer at any time.
+        </p>
+        <textarea id="data-textarea" class="data-textarea" placeholder="Paste your memories.txt content here..." spellcheck="false"></textarea>
+      </div>
+      <div class="modal-footer">
+        <div>
+          <label class="btn-pill" style="cursor: pointer;">
+            📂 Load .txt File
+            <input type="file" id="file-input" accept=".txt" style="display: none;">
+          </label>
+          <button id="reload-default-btn" class="btn-pill" style="margin-left: 0.5rem;">
+            ↺ Reset
+          </button>
+        </div>
+        <div class="modal-footer-actions">
+          <button id="copy-data-btn" class="btn-pill copy-full-data-btn" title="Copy full updated data source text to clipboard">
+            <svg class="subfolder-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy Full Data Source</span>
+          </button>
+          <button id="apply-data-btn" class="btn-drive-primary" style="padding: 0.55rem 1.25rem;">
+            Apply & Re-parse
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: Fallback data, parser, and main app -->
+  <script src="data/defaultData.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
